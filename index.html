@@ -88,9 +88,9 @@
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
-            const size = Math.random() * 100 + 50 + 'px';
-            bubble.style.width = size;
-            bubble.style.height = size;
+            const size = Math.random() * 100 + 50;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
             bubble.style.backgroundColor = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`;
             
             // Randomly decide if the bubble will start from the top, bottom, left, or right
@@ -98,18 +98,18 @@
             switch (startSide) {
                 case 0: // Top
                     bubble.style.left = Math.random() * 100 + 'vw';
-                    bubble.style.top = '-10vh';
+                    bubble.style.top = `-${size}px`;
                     break;
                 case 1: // Bottom
                     bubble.style.left = Math.random() * 100 + 'vw';
-                    bubble.style.top = '110vh';
+                    bubble.style.top = `calc(100vh + ${size}px)`;
                     break;
                 case 2: // Left
-                    bubble.style.left = '-10vw';
+                    bubble.style.left = `-${size}px`;
                     bubble.style.top = Math.random() * 100 + 'vh';
                     break;
                 case 3: // Right
-                    bubble.style.left = '110vw';
+                    bubble.style.left = `calc(100vw + ${size}px)`;
                     bubble.style.top = Math.random() * 100 + 'vh';
                     break;
             }
@@ -123,7 +123,7 @@
             }, 10000);
         }
 
-        setInterval(createBubble, 300);
+        setInterval(createBubble, 100);
     </script>
 </body>
 </html>
