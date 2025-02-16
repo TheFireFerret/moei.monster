@@ -17,7 +17,7 @@
             position: relative;
         }
         .container {
-            background-color: #ffe4e1;
+            background-color: rgba(255, 228, 225, 0.8);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             padding: 30px;
             text-align: center;
@@ -64,17 +64,14 @@
             position: absolute;
             border-radius: 50%;
             opacity: 0.6;
-            animation: float 15s infinite;
+            animation: float 10s infinite;
         }
         @keyframes float {
             0% {
-                transform: translateY(100vh) translateX(0);
-            }
-            50% {
-                transform: translateY(-100vh) translateX(100vw);
+                transform: translate(0, 0);
             }
             100% {
-                transform: translateY(100vh) translateX(0);
+                transform: translate(var(--x), var(--y));
             }
         }
     </style>
@@ -95,16 +92,38 @@
             bubble.style.width = size;
             bubble.style.height = size;
             bubble.style.backgroundColor = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`;
-            bubble.style.left = Math.random() * 100 + 'vw';
-            bubble.style.top = '110vh'; // Start off-screen
+            
+            // Randomly decide if the bubble will start from the top, bottom, left, or right
+            const startSide = Math.floor(Math.random() * 4);
+            switch (startSide) {
+                case 0: // Top
+                    bubble.style.left = Math.random() * 100 + 'vw';
+                    bubble.style.top = '-10vh';
+                    break;
+                case 1: // Bottom
+                    bubble.style.left = Math.random() * 100 + 'vw';
+                    bubble.style.top = '110vh';
+                    break;
+                case 2: // Left
+                    bubble.style.left = '-10vw';
+                    bubble.style.top = Math.random() * 100 + 'vh';
+                    break;
+                case 3: // Right
+                    bubble.style.left = '110vw';
+                    bubble.style.top = Math.random() * 100 + 'vh';
+                    break;
+            }
+
+            bubble.style.setProperty('--x', `${Math.random() * 200 - 100}vw`);
+            bubble.style.setProperty('--y', `${Math.random() * 200 - 100}vh`);
             document.body.appendChild(bubble);
 
             setTimeout(() => {
                 bubble.remove();
-            }, 15000);
+            }, 10000);
         }
 
-        setInterval(createBubble, 1000);
+        setInterval(createBubble, 300);
     </script>
 </body>
 </html>
