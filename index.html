@@ -86,37 +86,46 @@
         </div>
     </div>
     <script>
-        function createBubble() {
+        function createBubble(x = null, y = null) {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
             const size = Math.random() * 100 + 50;
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             bubble.style.backgroundColor = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`;
-            
-            // Randomly decide if the bubble will start from the top, bottom, left, or right
-            const startSide = Math.floor(Math.random() * 4);
-            switch (startSide) {
-                case 0: // Top
-                    bubble.style.left = Math.random() * 100 + 'vw';
-                    bubble.style.top = `-${size}px`;
-                    break;
-                case 1: // Bottom
-                    bubble.style.left = Math.random() * 100 + 'vw';
-                    bubble.style.top = `calc(100vh + ${size}px)`;
-                    break;
-                case 2: // Left
-                    bubble.style.left = `-${size}px`;
-                    bubble.style.top = Math.random() * 100 + 'vh';
-                    break;
-                case 3: // Right
-                    bubble.style.left = `calc(100vw + ${size}px)`;
-                    bubble.style.top = Math.random() * 100 + 'vh';
-                    break;
+
+            if (x !== null && y !== null) {
+                // Place bubble at cursor position
+                bubble.style.left = (x - size / 2) + 'px';
+                bubble.style.top = (y - size / 2) + 'px';
+                // Random pop direction
+                bubble.style.setProperty('--x', `${Math.random() * 200 - 100}px`);
+                bubble.style.setProperty('--y', `${Math.random() * -200 - 100}px`);
+            } else {
+                // Randomly decide if the bubble will start from the top, bottom, left, or right
+                const startSide = Math.floor(Math.random() * 4);
+                switch (startSide) {
+                    case 0: // Top
+                        bubble.style.left = Math.random() * 100 + 'vw';
+                        bubble.style.top = `-${size}px`;
+                        break;
+                    case 1: // Bottom
+                        bubble.style.left = Math.random() * 100 + 'vw';
+                        bubble.style.top = `calc(100vh + ${size}px)`;
+                        break;
+                    case 2: // Left
+                        bubble.style.left = `-${size}px`;
+                        bubble.style.top = Math.random() * 100 + 'vh';
+                        break;
+                    case 3: // Right
+                        bubble.style.left = `calc(100vw + ${size}px)`;
+                        bubble.style.top = Math.random() * 100 + 'vh';
+                        break;
+                }
+                bubble.style.setProperty('--x', `${Math.random() * 200 - 100}vw`);
+                bubble.style.setProperty('--y', `${Math.random() * 200 - 100}vh`);
             }
 
-            bubble.style.setProperty('--x', `${Math.random() * 200 - 100}vw`);
-            bubble.style.setProperty('--y', `${Math.random() * 200 - 100}vh`);
             document.body.appendChild(bubble);
 
             setTimeout(() => {
@@ -124,7 +133,12 @@
             }, 10000);
         }
 
-        setInterval(createBubble, 100);
+        setInterval(() => createBubble(), 100);
+
+        // Make bubbles pop off when clicking
+        document.addEventListener('click', function(event) {
+            createBubble(event.clientX, event.clientY);
+        });
     </script>
 </body>
 </html>
